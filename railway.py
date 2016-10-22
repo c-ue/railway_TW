@@ -1,4 +1,4 @@
-import urllib.request, re, http.cookiejar, urllib.parse,datetime
+import urllib.request, re, http.cookiejar, urllib.parse,datetime,os,subprocess,time,random,speech_recognition
 class Ticket:
     StationList = []
     Error = (False, None)
@@ -69,7 +69,7 @@ class Ticket:
         response=self.UrlOpener.open(req).read().decode('big5')
         return
 
-    def GetCaptcha(self):
+    def GetCaptcha(self): #nedd change file name and return it
         value = {
             'pageRandom':'0.5010025438144057'
         }
@@ -88,7 +88,7 @@ class Ticket:
         f.write(response)
         return response
 
-    def GetVoice(self):
+    def GetVoice(self): #nedd change file name and return it
         value = {
             'pageRandom': '0.39312307475596486'
         }
@@ -160,6 +160,17 @@ class Ticket:
         ltime=datetime.datetime.now()
         return ltime
 
+    def alaw2pcm_s16le(self): #need fix
+        os.chdir(r'ffmpeg\bin')
+        subprocess.call(['ffmpeg', '-i', '../../65179.wav', '-c:a', 'pcm_s16le', '1.wav'])
 
+    def voice2text(AudioFile):
+        r = speech_recognition.Recognizer()
+        with speech_recognition.WavFile(AudioFile) as source:
+            audio = r.record(source)
+        try:
+            return r.recognize_google(audio_data=audio, language='zh_TW')
+        except LookupError:
+            return False
 
-    #   sample SID A169351650
+         #   sample SID A169351650

@@ -19,21 +19,3 @@ def voice2text(sfile):
     except LookupError:
         return False 
         
-      
-
-
-
-      
-#test google speed
-dict={1:source1,2:source2}
-list=[]
-for i in range(100):
-    rand=random.randint(1,2)
-    stamp=time.time() 
-    str=voice2text(dict[rand])
-    if str==False:
-        continue
-    stamp=time.time()-stamp
-    list.append(stamp)
-    print('Case=',i,'File=',dict[rand],str,',CostTime=',stamp,'s')
-print('AVERAGE COST=',sum(list)/len(list))
